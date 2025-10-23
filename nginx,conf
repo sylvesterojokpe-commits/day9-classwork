@@ -7,14 +7,18 @@ events {
 http {
     include mime.types;
     upstream nodejs_cluster {
-        least_connn;
+        least_conn;
         server localhost:3001;
         server localhost:3002;
         server localhost:3003;
     }
     server {
-        listen 8085;
+        listen 443 ssl;
         server_name localhost;
+
+        ssl_certificate /etc/ssl/certs/cert.certs;
+        ssl_certificate_key /etc/ssl/private/privkey.key;
+
         location / {
             proxy_pass http://node_cluster;
             proxy_set_header Host $host;
